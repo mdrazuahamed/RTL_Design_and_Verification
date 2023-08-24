@@ -1,0 +1,134 @@
+module alu(random,prime,counter_out,TC,sum,carryout,clk,rst,en,A,B,m,n,CIN, P, PE, CEP, CET, CP, MR,select);
+
+output  [15:0]random;
+output  prime;
+output  TC;
+output  [31:0] counter_out;
+output  [31:0] sum;
+output  carryout;
+
+input clk,en;
+input rst;
+reg enf;
+input [15:0] m;
+reg [15:0] mf,nf;
+input [15:0] n;
+input [1:0]select;
+input[31:0]A,B;
+reg [31:0]Af,Bf;
+input CIN;
+reg CINf;
+input PE, CEP, CET, CP, MR;
+reg PEf, CEPf, CETf, CPf, MRf;
+input [31:0] P;
+reg [31:0] Pf;
+	
+	
+	always @(posedge clk)
+	begin
+
+		if(select==0)  
+		begin 
+			//only random function work
+			mf<=0;
+			nf<=0;
+			Af<=0;
+			Bf<=0;
+			CINf<=0;
+			PEf<=0;
+			CEPf<=0;
+			CETf<=0;
+       	 		Pf<=0;
+			enf<=en;
+		end
+	
+	
+		else if(select==1) 
+		begin 
+			//Only prime number generate 
+        		mf<=m;
+			nf<=n;
+			Af<=0;
+			Bf<=0;
+			CINf<=0;
+			PEf<=0;
+			CEPf<=0;
+			CETf<=0;
+			Pf<=0;
+			enf<=0;
+		end
+	
+	
+		else if(select==2) 
+		begin 
+			//Only carry save adder work
+			mf<=0;
+			nf<=0;
+   			Af<=A;
+			Bf<=B;
+			CINf<=CIN;
+   			PEf<=0;
+			CEPf<=0;
+			CETf<=0;
+			Pf<=P;
+			enf<=0;
+		end
+		
+		else if(select==3) 
+		begin 
+			//Only counter work
+   			mf<=0;
+			nf<=0;
+   			Af<=0;
+			Bf<=0;
+			CINf<=0;
+   			PEf<=PE;
+			CEPf<=CEP;
+			CETf<=CET;
+			Pf<=P;
+			enf<=0;
+		end 
+	
+		else  
+		begin
+			mf<=0;
+			nf<=0;
+			Af<=0;
+			Bf<=0;
+			CINf<=0;
+			PEf<=0;
+			CEPf<=0;
+			CETf<=0;
+			CPf<=0;
+			MRf<=0;
+			Pf<=0;
+			enf<=0;
+		end
+	
+	end
+
+ran r11(    	.Rnd(random),
+			.Clk(clk),
+			.en(enf));
+	
+prime r22( 		.prime(prime),
+			.clk(clk),
+			.rst(rst),
+			.m( mf),.n(nf));
+	
+trt_tw_csa_use_cla r33(  .S(sum),
+			.COUT(carryout),
+			.A(Af),.B(Bf),
+			.clk(clk),
+ 			.CIN(CINf));
+
+counter r44(  		.Q(counter_out), 
+ 			.TC(TC),
+ 			.P(Pf), 
+ 			.PE(PEf), 
+ 			.CEP(CEPf), 
+ 			.CET(CETf), 
+ 			.CP(CP),
+ 			.MR(MR));
+
+endmodule

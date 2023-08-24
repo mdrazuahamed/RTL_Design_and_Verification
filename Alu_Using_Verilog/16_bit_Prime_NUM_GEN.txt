@@ -1,0 +1,27 @@
+module Prime_Number_16bit(prime, clk, rst, m, n);
+
+	input [15:0] m;
+	input [15:0] n;
+	input clk,rst;
+	output reg prime;
+
+	integer i,j;
+	integer count = 0;
+
+	always@(posedge clk or negedge rst)
+	begin
+		if (~rst) prime = 0;
+		else 
+			begin
+					for(j=1; j<m; j=j+1)
+					begin
+						if(j == n) prime = 0;
+						else if(m%j == 0) count=count+1;
+						else count = count;
+					end
+			end
+			if(count<=1) prime = 1;
+			else prime = 0;
+			count = 0;
+	end
+endmodule

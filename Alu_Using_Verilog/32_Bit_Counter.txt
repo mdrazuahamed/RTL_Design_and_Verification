@@ -1,0 +1,28 @@
+module Counter_32bit_161(Q, TC, P, PE, CEP, CET, CP, MR);
+
+	input PE, CEP, CET, CP, MR;
+	input [31:0] P;
+	output reg TC;
+	output reg [31:0] Q;
+	
+	always @ (posedge CP, MR)
+	begin
+		if(MR == 0) Q = 0;
+		else
+			begin
+				if(PE == 0) Q = P;
+				else
+				begin
+					if((CET == 1) & (CEP == 1))
+					begin
+						Q = Q+1;
+						if(Q >= 50000) TC = 1;
+						else TC = 0;
+					end
+					else Q = Q;
+				end
+				
+			end
+	end
+
+endmodule

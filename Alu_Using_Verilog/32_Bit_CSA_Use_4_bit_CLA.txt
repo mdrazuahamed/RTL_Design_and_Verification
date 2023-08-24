@@ -1,0 +1,118 @@
+module trt_tw_csa_use_cla(S,COUT,A,B,clk,CIN);
+            input[31:0]A,B;
+            input CIN,clk;
+            output reg [31:0]S;
+            output reg COUT;
+// need wire to receive data from module
+            reg [27:0]w2_a,w2_b;
+            reg [23:0]w3_a,w3_b;
+            reg [19:0]w4_a,w4_b;
+            reg [15:0]w5_a,w5_b;
+            reg [11:0]w6_a,w6_b;
+            reg [7:0]w7_a,w7_b;
+            reg [3:0]w8_a,w8_b;
+
+            wire w1_cout;
+            reg w2_cin;
+            wire w2_cout;
+            reg w3_cin;
+            wire w3_cout;
+            reg w4_cin;
+            wire w4_cout;
+            reg w5_cin;
+            wire w5_cout;
+            reg w6_cin;
+            wire w6_cout;
+            reg w7_cin;
+            wire w7_cout;
+
+/*w2_sum[3:0]<=Sw1[3:0];
+w2_cin<=w1_cout;
+four_bit_cla r1(Sw1[3:0],w1_cout,w1_a[3:0],w1_b[3:0],w1_cin);*/
+
+            reg w8_cin;
+            wire w8_cout;
+
+            reg [3:0]w1_sum;
+            reg [7:0]w2_sum;
+            reg [11:0]w3_sum;
+            reg [15:0]w4_sum;
+            reg [19:0]w5_sum;
+            reg [23:0]w6_sum;
+            reg [27:0]w7_sum;
+            wire [3:0]Sw1,Sw2,Sw3,Sw4,Sw5,Sw6,Sw7,Sw8;
+
+
+            always@(posedge clk)
+            begin
+
+//w1_a<=A;
+//w1_b<=B;
+//w1_cin<=CIN;
+                        w1_sum[3:0]<=Sw1[3:0];
+                        w2_cin<=w1_cout;
+                        w2_a[27:0]<=A[31:4];
+                        w2_b[27:0]<=B[31:4];
+//r2(Sw2[3:0],w2_cout,w2_a[3:0],w2_b[3:0],w2_cin);
+
+                        w2_sum[7:0]<={Sw2[3:0],w1_sum[3:0]};
+                        w3_cin<=w2_cout;
+                        w3_a[23:0]<=w2_a[27:4];
+                        w3_b[23:0]<=w2_b[27:4];
+
+
+
+                        w3_sum[11:0]<={Sw3[3:0],w2_sum[7:0]};
+ //concatenate
+                        w4_cin<=w3_cout;
+                        w4_a[19:0]<=w3_a[23:4];
+                        w4_b[19:0]<=w3_b[23:4];
+
+
+                        w4_sum[15:0]<={Sw4[3:0],w3_sum[11:0]};
+                        w5_cin<=w4_cout;
+                        w5_a[15:0]<=w4_a[19:4];
+                        w5_b[15:0]<=w4_b[19:4];
+
+                        w5_sum[19:0]<={Sw5[3:0],w4_sum[15:0]};
+                        w6_cin<=w5_cout;
+                        w6_a[11:0]<=w5_a[15:4];
+                        w6_b[11:0]<=w5_b[15:4];
+
+
+                        w6_sum[23:0]<={Sw6[3:0],w5_sum[19:0]};
+                        w7_cin<=w6_cout;
+                        w7_a[7:0]<=w6_a[11:4];
+                        w7_b[7:0]<=w6_b[11:4];
+ 
+
+
+                        w7_sum[27:0]<={Sw7[3:0],w6_sum[23:0]}; 
+                        w8_cin<=w7_cout;
+//w4_sum[11:0]<=w3_sum[11:0];
+                        w8_a[3:0]<=w7_a[7:4];
+                        w8_b[3:0]<=w7_b[7:4];
+
+                        S[31:0]<={Sw8[3:0],w7_sum[27:0]};
+                        COUT<=w8_cout; 
+            end
+
+
+            four_bit_cla r1(Sw1[3:0],w1_cout,A[3:0],B[3:0],CIN);
+
+            four_bit_cla r2(Sw2[3:0],w2_cout,w2_a[3:0],w2_b[3:0],w2_cin);
+
+
+            four_bit_cla r3(Sw3[3:0],w3_cout,w3_a[11:8],w3_b[3:0],w3_cin);
+
+            four_bit_cla r4(Sw4[3:0],w4_cout,w4_a[3:0],w4_b[3:0],w4_cin);
+
+            four_bit_cla r5(Sw5[3:0],w5_cout,w5_a[3:0],w5_b[3:0],w5_cin);
+
+            four_bit_cla r6(Sw6[3:0],w6_cout,w6_a[3:0],w6_b[3:0],w6_cin);
+
+            four_bit_cla r7(Sw7[3:0],w7_cout,w7_a[3:0],w7_b[3:0],w7_cin);
+
+            four_bit_cla r8(Sw8[3:0],w8_cout,w8_a[3:0],w8_b[3:0],w8_cin);
+
+endmodule
