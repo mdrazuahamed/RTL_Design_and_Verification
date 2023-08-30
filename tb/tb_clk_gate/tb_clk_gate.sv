@@ -43,12 +43,12 @@ clk_gate u_clk_gate(
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 function automatic logic q_out(logic cp_i, logic e_i, logic te_i);
-logic temp;
-temp = cp_i & e_i;
-if(te_i==1)
-  q_out =cp_i;
-else
-  q_out =temp;
+  logic temp;
+  temp = cp_i & e_i;
+  if(te_i==1)
+    q_out =cp_i;
+  else
+    q_out =temp;
 endfunction
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
