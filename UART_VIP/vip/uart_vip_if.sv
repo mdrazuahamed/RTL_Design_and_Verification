@@ -1,3 +1,6 @@
+//# memory column for storing rd_data
+// ### Author : Razu Ahamed (en.razu.ahamed@gmail.com)
+
 interface uart_vip_if #(
   parameter int DATA_WIDTH = 5,
   parameter int PARITY_TYPE= 2,

@@ -1,3 +1,6 @@
+//# memory column for storing rd_data
+// ### Author : Razu Ahamed (en.razu.ahamed@gmail.com)
+
 `include "../vip/uart_vip_if.sv"
 
 module uart_vip_if_tb;

@@ -1,34 +1,36 @@
+//# memory column for storing rd_data
+// ### Author : Razu Ahamed (en.razu.ahamed@gmail.com)
 module uart_top  #(
   	parameter DEPTH = 5
 )
-  (
+(
 	input 	logic 				clk,
 	input 	logic 				rst,
-    input 	logic [DEPTH-1:0] 	data_in,
-    input 	logic 				enable,
-    output  logic [DEPTH-1:0] 	data_out 
+  input 	logic [DEPTH-1:0] 	data_in,
+  input 	logic 				enable,
+  output  logic [DEPTH-1:0] 	data_out 
 );
   
   logic txrx_connection;
 uart MASTER
 	(
-      .clk			(clk),
+    .clk			(clk),
 	  .rx			(),
-      .rst			(rst),
-  	  .enable		(enable),
-      .data_in		(data_in),
+    .rst			(rst),
+  	.enable		(enable),
+    .data_in		(data_in),
 	  .tx			(txrx_connection),
-  	  .data_out		()
+  	.data_out		()
  );
 uart SLAVE
 	(
-      .clk			(clk),
+    .clk			(clk),
 	  .rx			(txrx_connection),
-      .rst			(rst),
-  	  .enable		(),
-  	  .data_in		(),
+    .rst			(rst),
+  	.enable		(),
+  	.data_in		(),
 	  .tx			(),
-      .data_out		(data_out)
+    .data_out		(data_out)
  );
   
 endmodule

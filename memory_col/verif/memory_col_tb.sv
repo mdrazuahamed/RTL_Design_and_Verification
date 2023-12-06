@@ -1,3 +1,6 @@
+// # memory column for storing rd_data
+// ### Author : Razu Ahamed (en.razu.ahamed@gmail.com)
+
 module memory_col_tb;
 
     logic          clk;
